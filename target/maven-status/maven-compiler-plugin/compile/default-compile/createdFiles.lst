@@ -1,0 +1,12 @@
+com\doukou\commom\GlobalConstant.class
+com\doukou\util\PropertiesLoader.class
+com\doukou\entity\TextMessage.class
+com\doukou\util\StringUtil.class
+com\doukou\util\Global.class
+com\doukou\util\MessageUtil.class
+com\doukou\util\Sha1Util.class
+com\doukou\controller\DemoController.class
+com\doukou\controller\BaseController.class
+com\doukou\Tuling\TulingProcess.class
+com\doukou\service\BaseService.class
+com\doukou\util\MessageResponse.class
