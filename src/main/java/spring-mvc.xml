@@ -8,11 +8,45 @@
 		
 	<description>Spring MVC Configuration</description>		
 	<context:component-scan base-package="com.doukou.*"></context:component-scan>
+	
+	<!-- 静态资源 -->
+	<mvc:resources location="/static/" mapping="/static/**"/>
+	<!-- 添加 mvc:resources 后如果不添加annotation-driven 则无法访问注解Controller-->
+	<mvc:annotation-driven/>  
+	
+	<mvc:view-controller path="/" view-name="redirect:${web.view.index}"/>
 	<context:property-placeholder
 		ignore-unresolvable="true" location="classpath:doukou.properties" />
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="${web.view.prefix}" />
 		<property name="suffix" value="${web.view.suffix}" />
+	</bean>
+	
+	
+	<!-- <bean id="accessTokenSchedule" class="com.doukou.schedul.AccessTokenSchedul"/>
+	
+	<bean id="accessTokenDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="accessTokenSchedule"/>
+		<property name="targetMethod" value="getAccessTokenBySchedul"/>
+		<property name="concurrent" value="false"/>
+	</bean> -->
+	
+	 <bean name="accessTokenDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">  
+		<property name="jobClass" value="com.doukou.schedul.AccessTokenSchedul" />  
+	</bean> 
+	
+	<bean id="accessTokenTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">  
+		<property name="jobDetail" ref="accessTokenDetail" />  
+		<property name="startDelay" value="0" />
+		<property name="repeatInterval" value="720000" />
+	</bean> 
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="accessTokenTrigger" />
+			</list>
+		</property>
 	</bean>
 </beans>	
 	
